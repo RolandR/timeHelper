@@ -112,10 +112,12 @@ $(document).ready(function(){
 			}
 		}
 		
+		// Starts or resumes execution
 		function play(){
 			timer.play();
 		}
 		
+		// Pauses execution
 		function pause(){
 			timer.pause();
 		}
@@ -160,10 +162,13 @@ $(document).ready(function(){
 		// Calls tick() every 30 milliseconds
 		var tickInterval = null;
 		
+		
+		// Start or resume the tick interval
 		function play(){
 			tickInterval = setInterval(tick, 30);
 		}
 		
+		// Stop the tick interval
 		function pause(){
 			clearInterval(tickInterval);
 		}
@@ -229,6 +234,7 @@ $(document).ready(function(){
 			itemTime = newItemTime;
 		}
 		
+		// Clears the interval.
 		function end(){
 			clearInterval(tickInterval);
 		}
