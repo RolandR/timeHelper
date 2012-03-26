@@ -107,6 +107,63 @@ body{
 	left: 75%;
 }
 
+#controls{
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	
+	padding: 7px;
+	padding-bottom: 4px;
+	border: 1px #777777 solid;
+	border-radius: 20px;
+	background-color: rgba(100, 100, 100, 0.23);
+}
 
+.controlsButton{
+	height: 100px;
+	width: 100px;
+	margin: 3px;
+	border-radius: 10px;
+	display: inline-block;
+	cursor: pointer;
+	border: 1px #444444 solid;
+	
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.28)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0.28) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,255,255,0.28) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,255,255,0.28) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
+	background: linear-gradient(top, rgba(255,255,255,0.28) 0%,rgba(255,255,255,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#47ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+}
 
+.controlsButton img{
+	display: block;
+	position: relative;
+	width: 64px;
+	height: 64px;
+	top: 50%;
+	left: 50%;
+	margin-top: -32px;
+	margin-left: -32px;
+}
+
+.controlsButton:hover{
+	
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.04) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.32)), color-stop(100%,rgba(255,255,255,0.04))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0.32) 0%,rgba(255,255,255,0.04) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,255,255,0.32) 0%,rgba(255,255,255,0.04) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,255,255,0.32) 0%,rgba(255,255,255,0.04) 100%); /* IE10+ */
+	background: linear-gradient(top, rgba(255,255,255,0.32) 0%,rgba(255,255,255,0.04) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#52ffffff', endColorstr='#0affffff',GradientType=0 ); /* IE6-9 */
+}
+
+#playButton{
+	
+}
+
+#backButton{
+	
+}
 

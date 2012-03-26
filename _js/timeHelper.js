@@ -35,7 +35,9 @@ $(document).ready(function(){
 		$('#displayTitle'),
 		$('#nextTitle'),
 		$('#itemProgressBar'),
-		$('#mainProgressBar')
+		$('#mainProgressBar'),
+		$('#playButton'),
+		$('#toStartButton')
 	);
 
 	
@@ -49,14 +51,24 @@ $(document).ready(function(){
 		displayTitleElement,			// DOM element for the current title
 		nextTitleElement,				// DOM element for the next title
 		itemProgressBarElement,			// DOM element for the current title's progress bar 
-		mainProgressBarElement			// DOM element for the overall time progress bar
+		mainProgressBarElement,			// DOM element for the overall time progress bar
+		playButton,						// DOM element for controls: play button
+		toStartButton					// DOM element for controls: back to start button
 	){
+		
+		var running = false;
 		
 		// Total duration of the presentation - Sum of all durations in itemList
 		var overallTime = 0;
 		for(item in itemList){
 			overallTime += itemList[item].duration;
 		}
+		
+		// controls tracks mouse events for the controls box
+		var controls = new Controls(
+			playButton,
+			toStartButton
+		);
 		
 		// timer updates the DOM elements remainingTimeElement, overallRemainingTimeElement, itemProgressBarElement and mainProgressBarElement.
 		var timer = new Timer(
@@ -71,7 +83,6 @@ $(document).ready(function(){
 		var currentItemId = 0
 		
 		step();
-		
 		/*
 		*	step() displays the next element in itemList.
 		*	It is called after a timeout of the last item's duration runs out.
@@ -101,6 +112,33 @@ $(document).ready(function(){
 			}
 		}
 		
+		function play(){
+			timer.play();
+		}
+		
+		function pause(){
+			timer.pause();
+		}
+		
+		/*
+		*	Controls handles all mouse events for the controls box.
+		*/
+		function Controls(
+			playButton,
+			toStartButton
+		){
+			playButton.click(function(){
+				if(running){
+					pause();
+					playButton.children('img').attr('src', './_media/_icons/play.png');
+				} else {
+					play();
+					playButton.children('img').attr('src', './_media/_icons/pause.png');
+				}
+				running = !running;
+			});
+		}
+		
 	}
 	
 	function Timer(
@@ -120,8 +158,15 @@ $(document).ready(function(){
 		var overallStartTime = date.getTime()
 		
 		// Calls tick() every 30 milliseconds
-		var tickInterval = setInterval(tick, 30);
+		var tickInterval = null;
 		
+		function play(){
+			tickInterval = setInterval(tick, 30);
+		}
+		
+		function pause(){
+			clearInterval(tickInterval);
+		}
 		
 		/*
 		*	tick() updates all timer and progress bar DOM elements.
@@ -190,7 +235,9 @@ $(document).ready(function(){
 		
 		return{
 			setItemTime : setItemTime,
-			end : end
+			end : end,
+			play: play,
+			pause: pause
 		}
 	}
 	
