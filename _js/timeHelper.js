@@ -11,21 +11,33 @@ $(document).ready(function(){
 	// Array of all titles to be displayed as well as their durations
 	var itemList = [
 		{
-			displayTitle: 'Intro',
-			duration: 5 * factor
-		},
-		{
-			displayTitle: 'Say something',
-			duration: 2 * factor
-		},
-		{
-			displayTitle: 'More stuff',
-			duration: 3 * factor
-		},
-		{
-			displayTitle: 'The end',
-			duration:  7 * factor
-		},
+			displayTitle: 'Example Presentation',
+			duration: 4 * factor,
+			subElements: [
+				{
+					displayTitle: 'Intro',
+					duration: 5 * factor
+				},
+				{
+					displayTitle: 'Say something',
+					duration: 2 * factor
+				},
+				{
+					displayTitle: 'More stuff',
+					duration: 1 * factor,
+					subElements: [
+						{
+							displayTitle: 'Things and Stuff',
+							duration: 2 * factor
+						}
+					]
+				},
+				{
+					displayTitle: 'The end',
+					duration:  7 * factor
+				}
+			]
+		}
 	];
 	
 	var timeHelper = new TimeHelper(
@@ -58,6 +70,9 @@ $(document).ready(function(){
 		
 		var running = false;
 		
+		itemList = enhanceItemList(itemList);
+		console.log(itemList);
+		
 		// Total duration of the presentation - Sum of all durations in itemList
 		var overallTime = 0;
 		for(item in itemList){
@@ -83,6 +98,39 @@ $(document).ready(function(){
 		var currentItemId = 0
 		
 		step();
+		
+		
+		function enhanceItemList(toEnhance){
+			var currentlyEnhancing;
+			for(var item in toEnhance){
+				currentlyEnhancing = toEnhance[item];
+				
+				currentlyEnhancing.timePaused = 0;
+				console.log('currently enhancing: '+currentlyEnhancing.displayTitle);
+				if(currentlyEnhancing.subElements != null && currentlyEnhancing.subElements.length > 0){
+					currentlyEnhancing.subElementsDuration = calcTotalDuration(currentlyEnhancing.subElements);
+					currentlyEnhancing.subElements = enhanceItemList(currentlyEnhancing.subElements); // Recursion, woooo!
+				}
+			}
+			return toEnhance;
+		}
+		
+		function calcTotalDuration(listItem){
+			var totalDuration = 0
+			
+			var currentItem;
+			for(var item in listItem){
+				currentItem = listItem[item];
+				totalDuration += currentItem.duration;
+				if(currentItem.subElements != null && currentItem.subElements.length > 0){
+					totalDuration += calcTotalDuration(currentItem.subElements);
+				}
+			}
+			
+			console.log(totalDuration);
+			return totalDuration;
+		}
+		
 		/*
 		*	step() displays the next element in itemList.
 		*	It is called after a timeout of the last item's duration runs out.
