@@ -24,11 +24,29 @@ $(document).ready(function(){
 				},
 				{
 					displayTitle: 'More stuff',
-					duration: 1 * factor,
+					duration: 4 * factor,
 					subElements: [
 						{
 							displayTitle: 'Things and Stuff',
-							duration: 2 * factor
+							duration: 5 * factor
+						},
+						{
+							displayTitle: 'Other Things and Stuff',
+							duration: 0 * factor,
+							subElements: [
+								{
+									displayTitle: 'SubThings and SubStuff',
+									duration: 5 * factor
+								},
+								{
+									displayTitle: 'Other SubThings and SubStuff',
+									duration: 3 * factor
+								}
+							]
+						},
+						{
+							displayTitle: 'Owoewpwepohwtoeiwerogh',
+							duration: 5 * factor
 						}
 					]
 				},
@@ -40,17 +58,17 @@ $(document).ready(function(){
 		}
 	];
 	
-	var timeHelper = new TimeHelper(
-		itemList,
-		$('#remainingTime'),
-		$('#overallRemainingTime'),
-		$('#displayTitle'),
-		$('#nextTitle'),
-		$('#itemProgressBar'),
-		$('#mainProgressBar'),
-		$('#playButton'),
-		$('#toStartButton')
-	);
+	var timeHelper = null;
+	init();
+	
+	function init(){
+		timeHelper = new TimeHelper(
+			itemList,
+			$('#timeHelper'),
+			$('#playButton'),
+			$('#toStartButton')
+		);
+	}
 
 	
 	/*
@@ -58,19 +76,15 @@ $(document).ready(function(){
 	*/
 	function TimeHelper(
 		itemList, 						// The list of titles as initialised above
-		remainingTimeElement,			// DOM element to display the current title's remaining time
-		overallRemainingTimeElement,	// DOM element to display the total remaining time
-		displayTitleElement,			// DOM element for the current title
-		nextTitleElement,				// DOM element for the next title
-		itemProgressBarElement,			// DOM element for the current title's progress bar 
-		mainProgressBarElement,			// DOM element for the overall time progress bar
+		domParent,						// DOM element to which all progress bars, labels etc are appended
 		playButton,						// DOM element for controls: play button
 		toStartButton					// DOM element for controls: back to start button
 	){
 		
 		var running = false;
+		var enhanceId = 0;
 		
-		itemList = enhanceItemList(itemList);
+		itemList = enhanceItemList(itemList, 0, null);
 		console.log(itemList);
 		
 		// Total duration of the presentation - Sum of all durations in itemList
@@ -86,30 +100,41 @@ $(document).ready(function(){
 		);
 		
 		// timer updates the DOM elements remainingTimeElement, overallRemainingTimeElement, itemProgressBarElement and mainProgressBarElement.
-		var timer = new Timer(
-			overallTime,
-			remainingTimeElement,
-			overallRemainingTimeElement,
-			itemProgressBarElement,
-			mainProgressBarElement
-		);
+		/*var timer = new Timer(
+			itemList
+			//overallTime,
+			//remainingTimeElement,
+			//overallRemainingTimeElement,
+			//itemProgressBarElement,
+			//mainProgressBarElement
+		);*/
 		
 		// The current item in itemList
 		var currentItemId = 0
 		
-		step();
+		//step();
 		
 		
-		function enhanceItemList(toEnhance){
+		function enhanceItemList(toEnhance, layer, parent){
 			var currentlyEnhancing;
 			for(var item in toEnhance){
 				currentlyEnhancing = toEnhance[item];
 				
-				currentlyEnhancing.timePaused = 0;
+				currentlyEnhancing.pauseDuration = 0;
+				currentlyEnhancing.id = enhanceId;
+				currentlyEnhancing.layer = layer;
+				currentlyEnhancing.parent = parent;
+				currentlyEnhancing.subElementsDuration = 0;
+				
+				enhanceId++;
+				
 				console.log('currently enhancing: '+currentlyEnhancing.displayTitle);
+				console.log('enhanceId: '+currentlyEnhancing.id);
+				console.log('layer: '+currentlyEnhancing.layer);
+				
 				if(currentlyEnhancing.subElements != null && currentlyEnhancing.subElements.length > 0){
 					currentlyEnhancing.subElementsDuration = calcTotalDuration(currentlyEnhancing.subElements);
-					currentlyEnhancing.subElements = enhanceItemList(currentlyEnhancing.subElements); // Recursion, woooo!
+					currentlyEnhancing.subElements = enhanceItemList(currentlyEnhancing.subElements, layer+1, currentlyEnhancing); // Recursion, woooo!
 				}
 			}
 			return toEnhance;
@@ -131,32 +156,48 @@ $(document).ready(function(){
 			return totalDuration;
 		}
 		
+		function getListElementById(list, id){
+			var currentItem;
+			for(var item in list){
+				currentItem = list[item];
+				
+				if(currentItem.id == id){
+					return currentItem;
+				}
+				
+				if(currentItem.subElements != null && currentItem.subElements.length > 0){
+					var foundItem = getListElementById(currentItem.subElements, id);
+					if(foundItem != false){
+						return foundItem;
+					}
+				}
+			}
+			
+			return false;
+		}
+		
 		/*
 		*	step() displays the next element in itemList.
 		*	It is called after a timeout of the last item's duration runs out.
 		*/
 		function step(){
-			var item = itemList[currentItemId];
-			var nextItem = itemList[currentItemId + 1];
+			var item = getListElementById(itemList, currentItemId);
+			var nextItem = getListElementById(itemList, currentItemId + 1);
 			
-			// All elements in the list have been displayed. The presentation is over.
-			if(item == null){
-				timer.end();
-				return;
-			} else {
+			if(item){
 				currentItemId++;
 				
-				displayTitleElement.html(item.displayTitle);
+	//			displayTitleElement.html(item.displayTitle);
 				
 				// Preview for the next item
 				if(nextItem != null){
-					nextTitleElement.html('Next: '+nextItem.displayTitle);
+	//				nextTitleElement.html('Next: '+nextItem.displayTitle);
 				} else {
-					nextTitleElement.html('');
+	//				nextTitleElement.html('');
 				}
 				
-				timer.setItemTime(item.duration);
-				setTimeout(step, item.duration);
+				timer = new Timer(item, domParent);
+				//setTimeout(step, item.duration);
 			}
 		}
 		
@@ -178,58 +219,159 @@ $(document).ready(function(){
 			toStartButton
 		){
 			playButton.click(function(){
-				if(running){
-					pause();
-					playButton.children('img').attr('src', './_media/_icons/play.png');
+				if(typeof timer != 'undefined'){
+					if(running){
+						playButton.children('img').attr('src', './_media/_icons/play.png');
+						pause();
+					} else {
+						playButton.children('img').attr('src', './_media/_icons/pause.png');
+						play();
+					}
+					running = !running;
 				} else {
-					play();
+					running = true;
+					console.log('initialising');
+					step();
 					playButton.children('img').attr('src', './_media/_icons/pause.png');
 				}
-				running = !running;
 			});
+			toStartButton.click(function(){
+				/*timer = null;
+				init();*/
+			});
+		}
+		
+		return{
+			step : step,
+			getListElementById: getListElementById
 		}
 		
 	}
 	
 	function Timer(
-		overallTime,					// Total time of the presentation
-		remainingTimeElement,			// DOM element to display the current title's remaining time
-		overallRemainingTimeElement,	// DOM element to display the total remaining time
-		itemProgressBarElement,			// DOM element for the current title's progress bar 
-		mainProgressBarElement			// DOM element for the overall time progress bar
+		item,
+		domParent
+		//overallTime,					// Total time of the presentation
+		//remainingTimeElement,			// DOM element to display the current title's remaining time
+		//overallRemainingTimeElement,	// DOM element to display the total remaining time
+		//itemProgressBarElement,			// DOM element for the current title's progress bar 
+		//mainProgressBarElement			// DOM element for the overall time progress bar
 	){
-		// The current item's duration in milliseconds
-		var itemTime = 0;
-		// Timestamp of the current item's start
-		var itemStartTime = 0;
+		
+		/*
+		
+		<div id="mainProgressBarOuter" class="progressBarOuter">
+			<div id="mainProgressBar"  class="progressBar">
+			</div>
+		</div>
+		
+		*/
 		
 		var date = new Date();
-		// Timestamp of the presentation's start
-		var overallStartTime = date.getTime()
+		item.startTime = date.getTime();
+		
+		var layerCount = item.layer + 1;
+		var itemHasSubElements = false;
+		if(item.subElements != null && item.subElements.length > 0){
+			itemHasSubElements = true;
+		}
+		
+		if(itemHasSubElements){
+			layerCount++;
+		}
+		
+		var progressBars = [];
+		var lastPauseStart = false;
+		
+		
+		var progressBarHeight = domParent.height() / layerCount;
+		
+		for(var i = 0; i < layerCount; i++){
+			//console.log('timer: adding stuff for layer '+timeHelper.getListElementById(item, i).layer);
+			
+			var toAppend = $('<div></div>');
+			toAppend.addClass('progressBarOuter');
+			toAppend.height(progressBarHeight);
+			toAppend.css('bottom', progressBarHeight*(layerCount - 1 - i));
+			
+			var toAppendId = 'progressBarOuter'+i;
+			
+			toAppend.attr('id', toAppendId);
+			
+			toAppendInner = $('<div></div>');
+			toAppendInner.addClass('progressBar');
+			toAppend.append(toAppendInner);
+			
+			domParent.append(toAppend);
+			progressBars.push($('#'+toAppendId));
+			console.log(progressBars);
+		}
 		
 		// Calls tick() every 30 milliseconds
 		var tickInterval = null;
+		play();
 		
 		
 		// Start or resume the tick interval
 		function play(){
+			if(lastPauseStart){
+				var date = new Date();
+				var currentTime = date.getTime();
+				
+				var pauseDuration = currentTime - lastPauseStart;
+				
+				var loopingItem = item;
+				for(var i = 0; i < layerCount; i++){
+					if(!(itemHasSubElements && i == 0)){
+						loopingItem.pauseDuration += pauseDuration;
+						loopingItem = loopingItem.parent;
+					}
+				}
+			}
+			
 			tickInterval = setInterval(tick, 30);
 		}
 		
 		// Stop the tick interval
 		function pause(){
 			clearInterval(tickInterval);
+			
+			var date = new Date();
+			lastPauseStart = date.getTime();
 		}
 		
 		/*
 		*	tick() updates all timer and progress bar DOM elements.
 		*/
 		function tick(){
-			if(itemStartTime != 0){
-				updateProgressBar(itemProgressBarElement, itemStartTime, itemTime);
-				updateTimerElement(remainingTimeElement, itemStartTime, itemTime);
-				updateProgressBar(mainProgressBarElement, overallStartTime, overallTime);
-				updateTimerElement(overallRemainingTimeElement, overallStartTime, overallTime);
+			if(item){
+				var loopingItem = item;
+				for(var i = 0; i < layerCount; i++){
+					var duration;
+					if(itemHasSubElements){
+						if(i == 0){
+							duration = loopingItem.duration;
+						} else {
+							duration = loopingItem.duration + loopingItem.subElementsDuration;
+						}
+						updateProgressBar(loopingItem, progressBars[i], loopingItem.startTime, duration);
+						if(i != 0){
+							loopingItem = loopingItem.parent;
+						}
+					} else {
+						duration = loopingItem.duration + loopingItem.subElementsDuration;
+						updateProgressBar(loopingItem, progressBars[i], loopingItem.startTime, duration);
+						loopingItem = loopingItem.parent;
+					}
+				}
+				
+				var date = new Date();
+				currentTime = date.getTime();
+				
+				if(item.startTime + item.pauseDuration <= currentTime - item.duration){
+					end();
+					timeHelper.step();
+				}
 			}
 		}
 		
@@ -237,12 +379,15 @@ $(document).ready(function(){
 		/*
 		*	Calculates the new width of a progressbar based on the given start time and duration and updates it.
 		*/
-		function updateProgressBar(progressBar, startTime, duration){
+		function updateProgressBar(item, progressBar, startTime, duration){
 			var date = new Date();
 			var timePassed = date.getTime() - startTime;
 			
-			progressBar.width(
-				progressBar.parent().width() *  timePassed / duration
+			progressBar.children().width(
+				progressBar.width() *  (timePassed - item.pauseDuration) / duration
+			);
+			progressBar.children().html(
+				'<span class="itemLabel">'+item.displayTitle+'</span>'
 			);
 		}
 		
@@ -276,19 +421,19 @@ $(document).ready(function(){
 			});
 		}
 		
-		function setItemTime(newItemTime){
+		/*function setItem(item){
 			var date = new Date();
-			itemStartTime = date.getTime();
-			itemTime = newItemTime;
-		}
+			item.startTime = date.getTime();
+			displayedItem = item;
+		}*/
 		
 		// Clears the interval.
 		function end(){
+			domParent.empty();
 			clearInterval(tickInterval);
 		}
 		
 		return{
-			setItemTime : setItemTime,
 			end : end,
 			play: play,
 			pause: pause
