@@ -5,10 +5,12 @@
 
 $(document).ready(function(){
 	
-	// Durations in itemList are multiplied by factor. Used mostly for debug purposes, set 1000 for seconds.
+	// Durations in itemList are multiplied by factor. Used mostly for debug purposes.
+	// Set 1000 for seconds.
 	var factor = 1000;
 	
 	// Array of all titles to be displayed as well as their durations
+	// A list element can have any amount of sub-elements.
 	var itemList = [
 		{
 			displayTitle: 'Example Presentation',
@@ -58,6 +60,115 @@ $(document).ready(function(){
 		}
 	];
 	
+	
+	
+	
+	
+	var itemList = [
+		{
+			displayTitle: 'Example Presentation',
+			duration: 1 * factor,
+			subElements: [
+				{
+					displayTitle: 'More stuff',
+					duration: 1 * factor,
+					subElements: [
+						{
+							displayTitle: 'Other Things and Stuff',
+							duration: 1 * factor,
+							subElements: [
+								{
+									displayTitle: 'SubThings and SubStuff',
+									duration: 1 * factor,
+									subElements: [
+										{
+											displayTitle: 'SubThings and subsubsubsubsub',
+											duration: 1 * factor,
+											subElements: [
+												{
+													displayTitle: 'SubThings and subsubssssssssubsubsub',
+													duration: 1 * factor,
+													subElements: [
+														{
+															displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
+															duration: 1 * factor,
+															subElements: [
+																{
+																	displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
+																	duration: 1 * factor,
+																	subElements: [
+																		{
+																			displayTitle: 'SubThings and subsubssssssssubsubsub',
+																			duration: 1 * factor,
+																			subElements: [
+																				{
+																					displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
+																					duration: 1 * factor,
+																					subElements: [
+																						{
+																							displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
+																							duration: 1 * factor,
+																							subElements: [
+																								{
+																									displayTitle: 'SubThings and subsubssssssssubsubsub',
+																									duration: 1 * factor,
+																									subElements: [
+																										{
+																											displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
+																											duration: 1 * factor,
+																											subElements: [
+																												{
+																													displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
+																													duration: 1 * factor,
+																													subElements: [
+																														{
+																															displayTitle: 'SubThings and subsubssssssssubsubsub',
+																															duration: 1 * factor,
+																															subElements: [
+																																{
+																																	displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
+																																	duration: 1 * factor,
+																																	subElements: [
+																																		{
+																																			displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
+																																			duration: 5 * factor
+																																		}
+																																	]
+																																}
+																															]
+																														}
+																													]
+																												}
+																											]
+																										}
+																									]
+																								}
+																							]
+																						}
+																					]
+																				}
+																			]
+																		}
+																	]
+																}
+															]
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	];
+	
+	
+	
 	var timeHelper = null;
 	init();
 	
@@ -85,7 +196,7 @@ $(document).ready(function(){
 		var enhanceId = 0;
 		
 		itemList = enhanceItemList(itemList, 0, null);
-		console.log(itemList);
+		//console.log(itemList);
 		
 		// Total duration of the presentation - Sum of all durations in itemList
 		var overallTime = 0;
@@ -112,9 +223,10 @@ $(document).ready(function(){
 		// The current item in itemList
 		var currentItemId = 0
 		
-		//step();
 		
-		
+		/*
+		*	Adds various attributes like the element's layer or its parent as well as the total sum of sub-elements to itemList.
+		*/
 		function enhanceItemList(toEnhance, layer, parent){
 			var currentlyEnhancing;
 			for(var item in toEnhance){
@@ -126,20 +238,32 @@ $(document).ready(function(){
 				currentlyEnhancing.parent = parent;
 				currentlyEnhancing.subElementsDuration = 0;
 				
+				var r = Math.floor(Math.random()*100 + 100);
+				var g = Math.floor(Math.random()*100 + 100);
+				var b = Math.floor(Math.random()*100 + 100);
+				currentlyEnhancing.colour = 'rgb('+r+', '+g+', '+b+')';
+				
 				enhanceId++;
 				
-				console.log('currently enhancing: '+currentlyEnhancing.displayTitle);
-				console.log('enhanceId: '+currentlyEnhancing.id);
-				console.log('layer: '+currentlyEnhancing.layer);
+				/*
+				//console.log('currently enhancing: '+currentlyEnhancing.displayTitle);
+				//console.log('enhanceId: '+currentlyEnhancing.id);
+				//console.log('layer: '+currentlyEnhancing.layer);
+				*/
+				
 				
 				if(currentlyEnhancing.subElements != null && currentlyEnhancing.subElements.length > 0){
 					currentlyEnhancing.subElementsDuration = calcTotalDuration(currentlyEnhancing.subElements);
-					currentlyEnhancing.subElements = enhanceItemList(currentlyEnhancing.subElements, layer+1, currentlyEnhancing); // Recursion, woooo!
+					// Recursion, woooo!
+					currentlyEnhancing.subElements = enhanceItemList(currentlyEnhancing.subElements, layer+1, currentlyEnhancing);
 				}
 			}
 			return toEnhance;
 		}
 		
+		/*
+		*	Returns the total duration of all sub-elements of a listElement including the element's own duration
+		*/
 		function calcTotalDuration(listItem){
 			var totalDuration = 0
 			
@@ -152,10 +276,13 @@ $(document).ready(function(){
 				}
 			}
 			
-			console.log(totalDuration);
+			//console.log(totalDuration);
 			return totalDuration;
 		}
 		
+		/*
+		*	Returns the element of the desired id including all its sub-elements
+		*/
 		function getListElementById(list, id){
 			var currentItem;
 			for(var item in list){
@@ -230,7 +357,7 @@ $(document).ready(function(){
 					running = !running;
 				} else {
 					running = true;
-					console.log('initialising');
+					//console.log('initialising');
 					step();
 					playButton.children('img').attr('src', './_media/_icons/pause.png');
 				}
@@ -251,24 +378,14 @@ $(document).ready(function(){
 	function Timer(
 		item,
 		domParent
-		//overallTime,					// Total time of the presentation
-		//remainingTimeElement,			// DOM element to display the current title's remaining time
-		//overallRemainingTimeElement,	// DOM element to display the total remaining time
-		//itemProgressBarElement,			// DOM element for the current title's progress bar 
-		//mainProgressBarElement			// DOM element for the overall time progress bar
 	){
-		
-		/*
-		
-		<div id="mainProgressBarOuter" class="progressBarOuter">
-			<div id="mainProgressBar"  class="progressBar">
-			</div>
-		</div>
-		
-		*/
+
 		
 		var date = new Date();
 		item.startTime = date.getTime();
+		
+		var progressBars = [];
+		var lastPauseStart = false;
 		
 		var layerCount = item.layer + 1;
 		var itemHasSubElements = false;
@@ -280,31 +397,55 @@ $(document).ready(function(){
 			layerCount++;
 		}
 		
-		var progressBars = [];
-		var lastPauseStart = false;
 		
+		initialiseProgressBars(item);
 		
-		var progressBarHeight = domParent.height() / layerCount;
-		
-		for(var i = 0; i < layerCount; i++){
-			//console.log('timer: adding stuff for layer '+timeHelper.getListElementById(item, i).layer);
-			
-			var toAppend = $('<div></div>');
-			toAppend.addClass('progressBarOuter');
-			toAppend.height(progressBarHeight);
-			toAppend.css('bottom', progressBarHeight*(layerCount - 1 - i));
-			
-			var toAppendId = 'progressBarOuter'+i;
-			
-			toAppend.attr('id', toAppendId);
-			
-			toAppendInner = $('<div></div>');
-			toAppendInner.addClass('progressBar');
-			toAppend.append(toAppendInner);
-			
-			domParent.append(toAppend);
-			progressBars.push($('#'+toAppendId));
-			console.log(progressBars);
+		//	Appending DOM elements for progress bars
+		function initialiseProgressBars(item){
+			if(item){
+				
+				var progressBarHeight = Math.ceil(domParent.height() / layerCount);
+				
+				var loopingItem = item;
+				for(var i = 0; i < layerCount; i++){
+					
+					var toAppend = $('<div></div>');
+					toAppend.addClass('progressBarOuter');
+					toAppend.height(progressBarHeight);
+					toAppend.css('bottom', Math.floor(progressBarHeight*(layerCount - 1 - i)));
+					
+					var toAppendId = 'progressBarOuter'+i;
+					
+					toAppend.attr('id', toAppendId);
+					
+					toAppendInner = $('<div></div>');
+					toAppendInner.addClass('progressBar');
+					
+					
+					toAppend.append(toAppendInner);
+					
+					domParent.append(toAppend);
+					progressBars.push($('#'+toAppendId));
+					
+					if(itemHasSubElements){
+						progressBars[i].children().html(
+							'<span class="itemLabel">'+loopingItem.displayTitle+'</span>'
+						);
+						progressBars[i].children().css('backgroundColor', loopingItem.colour);
+						if(i != 0){
+							loopingItem = loopingItem.parent;
+						}
+					} else {
+						progressBars[i].children().html(
+							'<span class="itemLabel">'+loopingItem.displayTitle+'</span>'
+						);
+						progressBars[i].children().css('backgroundColor', loopingItem.colour);
+						loopingItem = loopingItem.parent;
+					}
+					
+					$('.itemLabel').css('font-size', progressBarHeight * 0.3 + 'px');
+				}
+			}
 		}
 		
 		// Calls tick() every 30 milliseconds
@@ -386,9 +527,6 @@ $(document).ready(function(){
 			progressBar.children().width(
 				progressBar.width() *  (timePassed - item.pauseDuration) / duration
 			);
-			progressBar.children().html(
-				'<span class="itemLabel">'+item.displayTitle+'</span>'
-			);
 		}
 		
 		/*
@@ -403,6 +541,7 @@ $(document).ready(function(){
 		
 		/*
 		*	Returns an object with minutes and seconds based on the given millisecond value.
+		*	No hours.
 		*/
 		function millisecondsToMinutes(milliseconds){
 			var toSeconds = Math.ceil(milliseconds / 1000);
@@ -421,13 +560,7 @@ $(document).ready(function(){
 			});
 		}
 		
-		/*function setItem(item){
-			var date = new Date();
-			item.startTime = date.getTime();
-			displayedItem = item;
-		}*/
-		
-		// Clears the interval.
+		// Clears the interval, removes all progress bars.
 		function end(){
 			domParent.empty();
 			clearInterval(tickInterval);
