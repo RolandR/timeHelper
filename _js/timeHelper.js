@@ -238,9 +238,30 @@ $(document).ready(function(){
 				currentlyEnhancing.parent = parent;
 				currentlyEnhancing.subElementsDuration = 0;
 				
-				var r = Math.floor(Math.random()*100 + 100);
-				var g = Math.floor(Math.random()*100 + 100);
-				var b = Math.floor(Math.random()*100 + 100);
+				var primaryColour = Math.floor(Math.random()*2.999);
+				var secondaryColour = -1;
+				if(Math.round(Math.random()) == 1){
+					do{
+					secondaryColour = Math.floor(Math.random()*2.999);
+					}while (secondaryColour == primaryColour)
+				}
+				
+				var r = 0;
+				var g = 0;
+				var b = 0;
+				
+				if(primaryColour == 0 || secondaryColour == 0){
+					r = Math.floor(Math.random()*155 + 100);
+				}
+				
+				if(primaryColour == 1 || secondaryColour == 1){
+					g = Math.floor(Math.random()*155 + 100);
+				}
+				
+				if(primaryColour == 2 || secondaryColour == 2){
+					b = Math.floor(Math.random()*155 + 100);
+				}
+				
 				currentlyEnhancing.colour = 'rgb('+r+', '+g+', '+b+')';
 				
 				enhanceId++;
@@ -361,6 +382,8 @@ $(document).ready(function(){
 					step();
 					playButton.children('img').attr('src', './_media/_icons/pause.png');
 				}
+				
+				setTimeout('playButton.style.display = "none"', 2000);
 			});
 			toStartButton.click(function(){
 				/*timer = null;
