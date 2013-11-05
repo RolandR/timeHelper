@@ -1,17 +1,37 @@
+/*
 
-/**
-*	@author Roland Rytz
+	This project uses jQuery: http://jquery.com/
+	
+	Icons from the Iconic icon set have been used: http://somerandomdude.com/work/iconic/
+	
+	
+	
+	Copyright 2012 Roland Rytz
+	___________________________
+	
+	This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    See http://www.gnu.org/licenses/gpl-3.0.html for further information.
+	
 */
 
 $(document).ready(function(){
 	
-	// Durations in itemList are multiplied by factor. Used mostly for debug purposes.
+	// Durations in topicList are multiplied by factor. Used mostly for debug purposes.
 	// Set 1000 for seconds.
-	var factor = 1000;
+	var factor = 60*1000;
 	
 	// Array of all titles to be displayed as well as their durations
 	// A list element can have any amount of sub-elements.
-	var itemList = [
+	var topicList = [
 		{
 			displayTitle: 'Example Presentation',
 			duration: 4 * factor,
@@ -47,7 +67,7 @@ $(document).ready(function(){
 							]
 						},
 						{
-							displayTitle: 'Owoewpwepohwtoeiwerogh',
+							displayTitle: 'More stuff ends',
 							duration: 5 * factor
 						}
 					]
@@ -61,10 +81,67 @@ $(document).ready(function(){
 	];
 	
 	
+	topicList = [
+		{
+			displayTitle: 'English Presentation',
+			duration: 0 * factor,
+			subElements: [
+				{
+					displayTitle: 'Intro',
+					duration: 0.3 * factor
+				},
+				{
+					displayTitle: 'Agriculture',
+					duration: 5 * factor
+				},
+				{
+					displayTitle: 'Raeffu',
+					duration: 5 * factor
+				},
+				{
+					displayTitle: 'Moon Landings',
+					duration: 0 * factor,
+					subElements: [
+					{
+						displayTitle: 'Intro',
+						duration: 0.5 * factor
+					},
+					{
+						displayTitle: 'Instrument Unit',
+						duration: 2 * factor
+					},
+					{
+						displayTitle: 'Apollo Guidance Computer',
+						duration: 0.75 * factor
+					},
+					{
+						displayTitle: 'Core RAM',
+						duration: 1 * factor
+					},
+					{
+						displayTitle: 'Rope core ROM',
+						duration: 1 * factor
+					},
+					{
+						displayTitle: 'Little Old Ladies',
+						duration: 0.75 * factor
+					}
+					]
+				},
+				{
+					displayTitle: 'End',
+					duration: 1 * factor
+				}
+			]
+		}
+	];
 	
 	
 	
-	var itemList = [
+	var useDebugList = false;
+	
+	if(useDebugList){
+	var topicList = [
 		{
 			displayTitle: 'Example Presentation',
 			duration: 1 * factor,
@@ -166,7 +243,7 @@ $(document).ready(function(){
 			]
 		}
 	];
-	
+	}
 	
 	
 	var timeHelper = null;
@@ -174,63 +251,56 @@ $(document).ready(function(){
 	
 	function init(){
 		timeHelper = new TimeHelper(
-			itemList,
+			topicList,
 			$('#timeHelper'),
+			$('#controls'),
 			$('#playButton'),
 			$('#toStartButton')
 		);
 	}
-
+	
 	
 	/*
 	*	Main object, creates a Timer object.
 	*/
 	function TimeHelper(
-		itemList, 						// The list of titles as initialised above
+		topicList, 						// The list of titles as initialised above
 		domParent,						// DOM element to which all progress bars, labels etc are appended
+		controlsContainer,					// DOM element which contains all control elements
 		playButton,						// DOM element for controls: play button
-		toStartButton					// DOM element for controls: back to start button
+		toStartButton						// DOM element for controls: back to start button
 	){
 		
 		var running = false;
 		var enhanceId = 0;
 		
-		itemList = enhanceItemList(itemList, 0, null);
-		//console.log(itemList);
+		topicList = enhanceTopicList(topicList, 0, null);
+		//console.log(topicList);
 		
-		// Total duration of the presentation - Sum of all durations in itemList
+		// Total duration of the presentation - Sum of all durations in topicList
 		var overallTime = 0;
-		for(item in itemList){
-			overallTime += itemList[item].duration;
+		for(topic in topicList){
+			overallTime += topicList[topic].duration;
 		}
 		
 		// controls tracks mouse events for the controls box
 		var controls = new Controls(
+			controlsContainer,
 			playButton,
 			toStartButton
 		);
 		
-		// timer updates the DOM elements remainingTimeElement, overallRemainingTimeElement, itemProgressBarElement and mainProgressBarElement.
-		/*var timer = new Timer(
-			itemList
-			//overallTime,
-			//remainingTimeElement,
-			//overallRemainingTimeElement,
-			//itemProgressBarElement,
-			//mainProgressBarElement
-		);*/
-		
-		// The current item in itemList
-		var currentItemId = 0
+		// The current topic in topicList
+		var currentTopicId = 0
 		
 		
 		/*
-		*	Adds various attributes like the element's layer or its parent as well as the total sum of sub-elements to itemList.
+		*	Adds various attributes like the element's layer or its parent as well as the total sum of sub-elements to topicList.
 		*/
-		function enhanceItemList(toEnhance, layer, parent){
+		function enhanceTopicList(toEnhance, layer, parent){
 			var currentlyEnhancing;
-			for(var item in toEnhance){
-				currentlyEnhancing = toEnhance[item];
+			for(var topic in toEnhance){
+				currentlyEnhancing = toEnhance[topic];
 				
 				currentlyEnhancing.pauseDuration = 0;
 				currentlyEnhancing.id = enhanceId;
@@ -238,31 +308,9 @@ $(document).ready(function(){
 				currentlyEnhancing.parent = parent;
 				currentlyEnhancing.subElementsDuration = 0;
 				
-				var primaryColour = Math.floor(Math.random()*2.999);
-				var secondaryColour = -1;
-				if(Math.round(Math.random()) == 1){
-					do{
-					secondaryColour = Math.floor(Math.random()*2.999);
-					}while (secondaryColour == primaryColour)
-				}
+				var colour = generateColour();
 				
-				var r = 0;
-				var g = 0;
-				var b = 0;
-				
-				if(primaryColour == 0 || secondaryColour == 0){
-					r = Math.floor(Math.random()*155 + 100);
-				}
-				
-				if(primaryColour == 1 || secondaryColour == 1){
-					g = Math.floor(Math.random()*155 + 100);
-				}
-				
-				if(primaryColour == 2 || secondaryColour == 2){
-					b = Math.floor(Math.random()*155 + 100);
-				}
-				
-				currentlyEnhancing.colour = 'rgb('+r+', '+g+', '+b+')';
+				currentlyEnhancing.colour = colour;
 				
 				enhanceId++;
 				
@@ -276,24 +324,56 @@ $(document).ready(function(){
 				if(currentlyEnhancing.subElements != null && currentlyEnhancing.subElements.length > 0){
 					currentlyEnhancing.subElementsDuration = calcTotalDuration(currentlyEnhancing.subElements);
 					// Recursion, woooo!
-					currentlyEnhancing.subElements = enhanceItemList(currentlyEnhancing.subElements, layer+1, currentlyEnhancing);
+					currentlyEnhancing.subElements = enhanceTopicList(currentlyEnhancing.subElements, layer+1, currentlyEnhancing);
 				}
 			}
 			return toEnhance;
 		}
 		
+		
+		/*
+		*	Generates a nice colour. returns it in rgb(r, g, b) format as a string.
+		*/
+		function generateColour(){
+			var primaryColour = Math.floor(Math.random()*2.999);
+			var secondaryColour = -1;
+			if(Math.round(Math.random()) == 1){
+				do{
+				secondaryColour = Math.floor(Math.random()*2.999);
+				}while (secondaryColour == primaryColour)
+			}
+			
+			var r = 0;
+			var g = 0;
+			var b = 0;
+			
+			if(primaryColour == 0 || secondaryColour == 0){
+				r = Math.floor(Math.random()*100 + 155);
+			}
+			
+			if(primaryColour == 1 || secondaryColour == 1){
+				g = Math.floor(Math.random()*100 + 155);
+			}
+			
+			if(primaryColour == 2 || secondaryColour == 2){
+				b = Math.floor(Math.random()*100 + 155);
+			}
+			
+			return('rgb('+r+', '+g+', '+b+')');
+		}
+		
 		/*
 		*	Returns the total duration of all sub-elements of a listElement including the element's own duration
 		*/
-		function calcTotalDuration(listItem){
+		function calcTotalDuration(listTopic){
 			var totalDuration = 0
 			
-			var currentItem;
-			for(var item in listItem){
-				currentItem = listItem[item];
-				totalDuration += currentItem.duration;
-				if(currentItem.subElements != null && currentItem.subElements.length > 0){
-					totalDuration += calcTotalDuration(currentItem.subElements);
+			var currentTopic;
+			for(var topic in listTopic){
+				currentTopic = listTopic[topic];
+				totalDuration += currentTopic.duration;
+				if(currentTopic.subElements != null && currentTopic.subElements.length > 0){
+					totalDuration += calcTotalDuration(currentTopic.subElements);
 				}
 			}
 			
@@ -305,18 +385,18 @@ $(document).ready(function(){
 		*	Returns the element of the desired id including all its sub-elements
 		*/
 		function getListElementById(list, id){
-			var currentItem;
-			for(var item in list){
-				currentItem = list[item];
+			var currentTopic;
+			for(var topic in list){
+				currentTopic = list[topic];
 				
-				if(currentItem.id == id){
-					return currentItem;
+				if(currentTopic.id == id){
+					return currentTopic;
 				}
 				
-				if(currentItem.subElements != null && currentItem.subElements.length > 0){
-					var foundItem = getListElementById(currentItem.subElements, id);
-					if(foundItem != false){
-						return foundItem;
+				if(currentTopic.subElements != null && currentTopic.subElements.length > 0){
+					var foundTopic = getListElementById(currentTopic.subElements, id);
+					if(foundTopic != false){
+						return foundTopic;
 					}
 				}
 			}
@@ -325,27 +405,27 @@ $(document).ready(function(){
 		}
 		
 		/*
-		*	step() displays the next element in itemList.
-		*	It is called after a timeout of the last item's duration runs out.
+		*	step() displays the next element in topicList.
+		*	It is called after a timeout of the last topic's duration runs out.
 		*/
 		function step(){
-			var item = getListElementById(itemList, currentItemId);
-			var nextItem = getListElementById(itemList, currentItemId + 1);
+			var topic = getListElementById(topicList, currentTopicId);
+			var nextTopic = getListElementById(topicList, currentTopicId + 1);
 			
-			if(item){
-				currentItemId++;
+			if(topic){
+				currentTopicId++;
 				
-	//			displayTitleElement.html(item.displayTitle);
+	//			displayTitleElement.html(topic.displayTitle);
 				
-				// Preview for the next item
-				if(nextItem != null){
-	//				nextTitleElement.html('Next: '+nextItem.displayTitle);
+				// Preview for the next topic
+				if(nextTopic != null){
+	//				nextTitleElement.html('Next: '+nextTopic.displayTitle);
 				} else {
 	//				nextTitleElement.html('');
 				}
 				
-				timer = new Timer(item, domParent);
-				//setTimeout(step, item.duration);
+				timer = new Timer(topic, domParent);
+				//setTimeout(step, topic.duration);
 			}
 		}
 		
@@ -363,10 +443,11 @@ $(document).ready(function(){
 		*	Controls handles all mouse events for the controls box.
 		*/
 		function Controls(
+			controlsContainer,
 			playButton,
 			toStartButton
 		){
-			playButton.click(function(){
+			playButton.click(function(controlsContainer){
 				if(typeof timer != 'undefined'){
 					if(running){
 						playButton.children('img').attr('src', './_media/_icons/play.png');
@@ -383,7 +464,7 @@ $(document).ready(function(){
 					playButton.children('img').attr('src', './_media/_icons/pause.png');
 				}
 				
-				setTimeout('playButton.style.display = "none"', 2000);
+				//setTimeout('controls.style.display = "none"', 1300);
 			});
 			toStartButton.click(function(){
 				/*timer = null;
@@ -399,37 +480,36 @@ $(document).ready(function(){
 	}
 	
 	function Timer(
-		item,
+		topic,
 		domParent
 	){
 
 		
 		var date = new Date();
-		item.startTime = date.getTime();
+		topic.startTime = date.getTime();
 		
 		var progressBars = [];
 		var lastPauseStart = false;
 		
-		var layerCount = item.layer + 1;
-		var itemHasSubElements = false;
-		if(item.subElements != null && item.subElements.length > 0){
-			itemHasSubElements = true;
+		var layerCount = topic.layer + 1;
+		var topicHasSubElements = false;
+		if(topic.subElements != null && topic.subElements.length > 0){
+			topicHasSubElements = true;
 		}
 		
-		if(itemHasSubElements){
+		if(topicHasSubElements){
 			layerCount++;
 		}
 		
 		
-		initialiseProgressBars(item);
+		initialiseProgressBars(topic);
 		
 		//	Appending DOM elements for progress bars
-		function initialiseProgressBars(item){
-			if(item){
-				
+		function initialiseProgressBars(topic){
+			if(topic){
 				var progressBarHeight = Math.ceil(domParent.height() / layerCount);
 				
-				var loopingItem = item;
+				var loopingTopic = topic;
 				for(var i = 0; i < layerCount; i++){
 					
 					var toAppend = $('<div></div>');
@@ -450,28 +530,37 @@ $(document).ready(function(){
 					domParent.append(toAppend);
 					progressBars.push($('#'+toAppendId));
 					
-					if(itemHasSubElements){
+					var totalDuration = millisecondsToMinutes(loopingTopic.duration + loopingTopic.subElementsDuration);
+					totalDuration = totalDuration['m'] + ':' + totalDuration['s'];
+					
+					if(topicHasSubElements){
 						progressBars[i].children().html(
-							'<span class="itemLabel">'+loopingItem.displayTitle+'</span>'
+							'<span class="topicLabel">'+loopingTopic.displayTitle +'</span>\
+							<br />\
+							<span class="topicDuration"><span class="durationLeft"></span> of '+totalDuration+'</span>'
 						);
-						progressBars[i].children().css('backgroundColor', loopingItem.colour);
+						progressBars[i].children().css('backgroundColor', loopingTopic.colour);
 						if(i != 0){
-							loopingItem = loopingItem.parent;
+							loopingTopic = loopingTopic.parent;
 						}
 					} else {
 						progressBars[i].children().html(
-							'<span class="itemLabel">'+loopingItem.displayTitle+'</span>'
+							'<span class="topicLabel">'+loopingTopic.displayTitle +'</span>\
+							<br />\
+							<span class="topicDuration"><span class="durationLeft"></span> of '+totalDuration+'</span>'
 						);
-						progressBars[i].children().css('backgroundColor', loopingItem.colour);
-						loopingItem = loopingItem.parent;
+						progressBars[i].children().css('backgroundColor', loopingTopic.colour);
+						loopingTopic = loopingTopic.parent;
 					}
 					
-					$('.itemLabel').css('font-size', progressBarHeight * 0.3 + 'px');
+					$('.topicLabel').css('font-size', progressBarHeight * 0.3 + 'px');
+					$('.topicDuration').css('font-size', progressBarHeight * 0.15 + 'px');
+					$('.durationLeft').css('font-size', progressBarHeight * 0.25 + 'px');
 				}
 			}
 		}
 		
-		// Calls tick() every 30 milliseconds
+		// tickInterval calls tick()
 		var tickInterval = null;
 		play();
 		
@@ -484,16 +573,16 @@ $(document).ready(function(){
 				
 				var pauseDuration = currentTime - lastPauseStart;
 				
-				var loopingItem = item;
+				var loopingTopic = topic;
 				for(var i = 0; i < layerCount; i++){
-					if(!(itemHasSubElements && i == 0)){
-						loopingItem.pauseDuration += pauseDuration;
-						loopingItem = loopingItem.parent;
+					if(!(topicHasSubElements && i == 0)){
+						loopingTopic.pauseDuration += pauseDuration;
+						loopingTopic = loopingTopic.parent;
 					}
 				}
 			}
 			
-			tickInterval = setInterval(tick, 30);
+			tickInterval = setInterval(tick, 1);
 		}
 		
 		// Stop the tick interval
@@ -508,31 +597,31 @@ $(document).ready(function(){
 		*	tick() updates all timer and progress bar DOM elements.
 		*/
 		function tick(){
-			if(item){
-				var loopingItem = item;
+			if(topic){
+				var loopingTopic = topic;
 				for(var i = 0; i < layerCount; i++){
 					var duration;
-					if(itemHasSubElements){
+					if(topicHasSubElements){
 						if(i == 0){
-							duration = loopingItem.duration;
+							duration = loopingTopic.duration;
 						} else {
-							duration = loopingItem.duration + loopingItem.subElementsDuration;
+							duration = loopingTopic.duration + loopingTopic.subElementsDuration;
 						}
-						updateProgressBar(loopingItem, progressBars[i], loopingItem.startTime, duration);
+						updateProgressBar(loopingTopic, progressBars[i], loopingTopic.startTime, duration);
 						if(i != 0){
-							loopingItem = loopingItem.parent;
+							loopingTopic = loopingTopic.parent;
 						}
 					} else {
-						duration = loopingItem.duration + loopingItem.subElementsDuration;
-						updateProgressBar(loopingItem, progressBars[i], loopingItem.startTime, duration);
-						loopingItem = loopingItem.parent;
+						duration = loopingTopic.duration + loopingTopic.subElementsDuration;
+						updateProgressBar(loopingTopic, progressBars[i], loopingTopic.startTime, duration);
+						loopingTopic = loopingTopic.parent;
 					}
 				}
 				
 				var date = new Date();
 				currentTime = date.getTime();
 				
-				if(item.startTime + item.pauseDuration <= currentTime - item.duration){
+				if(topic.startTime + topic.pauseDuration <= currentTime - topic.duration){
 					end();
 					timeHelper.step();
 				}
@@ -543,12 +632,14 @@ $(document).ready(function(){
 		/*
 		*	Calculates the new width of a progressbar based on the given start time and duration and updates it.
 		*/
-		function updateProgressBar(item, progressBar, startTime, duration){
+		function updateProgressBar(topic, progressBar, startTime, duration){
 			var date = new Date();
 			var timePassed = date.getTime() - startTime;
 			
+			updateTimerElement(progressBar.find('.durationLeft'), startTime, duration);
+			
 			progressBar.children().width(
-				progressBar.width() *  (timePassed - item.pauseDuration) / duration
+				progressBar.width() *  (timePassed - topic.pauseDuration) / duration
 			);
 		}
 		

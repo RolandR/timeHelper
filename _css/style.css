@@ -1,3 +1,28 @@
+/*
+
+	This project uses jQuery: http://jquery.com/
+	
+	Icons from the Iconic icon set have been used: http://somerandomdude.com/work/iconic/
+	
+	
+	
+	Copyright 2012 Roland Rytz
+	___________________________
+	
+	This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    See http://www.gnu.org/licenses/gpl-3.0.html for further information.
+	
+*/
+
 *{
 	margin: 0px;
 	padding: 0px;
@@ -45,14 +70,18 @@ body{
 	/*border-right: 5px ridge #FF0000;*/
 }
 
-.itemLabel{
+.topicLabel, .topicDuration{
 	position: absolute;
 	line-height: 0;
-	top: 40%;
+	top: 30%;
 	margin-left: 40px;
 }
 
-.remainingTime{
+.topicDuration{
+	top: 60%;
+}
+
+.durationLeft{
 }
 
 .quarterMark{
@@ -79,22 +108,21 @@ body{
 
 #controls{
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -85px;
-	margin-left: -120px;
+	bottom: 0px;
+	right: 0px;
 	z-index: 20000;
 	
-	padding: 7px;
-	padding-bottom: 4px;
+	padding: 4px;
+	padding-bottom: 2px;
 	border: 1px #777777 solid;
-	border-radius: 20px;
+	border-width: 1px 0px 0px 1px;
+	border-radius: 10px 0px 0px 0px;
 	background-color: #222222;
 }
 
 .controlsButton{
-	height: 100px;
-	width: 100px;
+	height: 70px;
+	width: 70px;
 	margin: 3px;
 	border-radius: 10px;
 	display: inline-block;
@@ -113,12 +141,12 @@ body{
 .controlsButton img{
 	display: block;
 	position: relative;
-	width: 64px;
-	height: 64px;
+	width: 45px;
+	height: 45px;
 	top: 50%;
 	left: 50%;
-	margin-top: -32px;
-	margin-left: -32px;
+	margin-top: -23px;
+	margin-left: -23px;
 }
 
 .controlsButton:hover{
