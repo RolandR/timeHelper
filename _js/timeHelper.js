@@ -33,217 +33,62 @@ $(document).ready(function(){
 	// A list element can have any amount of sub-elements.
 	var topicList = [
 		{
-			displayTitle: 'Example Presentation',
-			duration: 4 * factor,
+			displayTitle: 'Sample Presentation',
+			duration: 0 * factor, // Duration of all subElements will be added automatically.
 			subElements: [
 				{
 					displayTitle: 'Intro',
-					duration: 5 * factor
+					duration: 0.2 * factor
 				},
 				{
-					displayTitle: 'Say something',
-					duration: 2 * factor
-				},
-				{
-					displayTitle: 'More stuff',
-					duration: 4 * factor,
+					displayTitle: 'Subtopics!',
+					duration: 0 * factor,
 					subElements: [
 						{
-							displayTitle: 'Things and Stuff',
-							duration: 5 * factor
+							displayTitle: 'Hello World!',
+							duration: 0.2 * factor
 						},
 						{
-							displayTitle: 'Other Things and Stuff',
+							displayTitle: 'More Subtopics!',
+							duration: 0.2 * factor
+						},
+						{
+							displayTitle: 'As many as you like',
 							duration: 0 * factor,
 							subElements: [
 								{
-									displayTitle: 'SubThings and SubStuff',
-									duration: 5 * factor
+									displayTitle: 'Foo',
+									duration: 0.1 * factor
 								},
 								{
-									displayTitle: 'Other SubThings and SubStuff',
-									duration: 3 * factor
+									displayTitle: 'Bar',
+									duration: 0.2 * factor
 								}
 							]
+						}
+					]
+				},
+				{
+					displayTitle: 'Another topic',
+					duration: 0 * factor,
+					subElements: [
+						{
+							displayTitle: 'Stuff',
+							duration: 0.2 * factor
 						},
 						{
-							displayTitle: 'More stuff ends',
-							duration: 5 * factor
+							displayTitle: 'Things',
+							duration: 0.3 * factor
 						}
 					]
 				},
 				{
 					displayTitle: 'The end',
-					duration:  7 * factor
+					duration: 0.5 * factor
 				}
 			]
 		}
 	];
-	
-	
-	topicList = [
-		{
-			displayTitle: 'English Presentation',
-			duration: 0 * factor,
-			subElements: [
-				{
-					displayTitle: 'Intro',
-					duration: 0.3 * factor
-				},
-				{
-					displayTitle: 'Agriculture',
-					duration: 5 * factor
-				},
-				{
-					displayTitle: 'Raeffu',
-					duration: 5 * factor
-				},
-				{
-					displayTitle: 'Moon Landings',
-					duration: 0 * factor,
-					subElements: [
-					{
-						displayTitle: 'Intro',
-						duration: 0.5 * factor
-					},
-					{
-						displayTitle: 'Instrument Unit',
-						duration: 2 * factor
-					},
-					{
-						displayTitle: 'Apollo Guidance Computer',
-						duration: 0.75 * factor
-					},
-					{
-						displayTitle: 'Core RAM',
-						duration: 1 * factor
-					},
-					{
-						displayTitle: 'Rope core ROM',
-						duration: 1 * factor
-					},
-					{
-						displayTitle: 'Little Old Ladies',
-						duration: 0.75 * factor
-					}
-					]
-				},
-				{
-					displayTitle: 'End',
-					duration: 1 * factor
-				}
-			]
-		}
-	];
-	
-	
-	
-	var useDebugList = false;
-	
-	if(useDebugList){
-	var topicList = [
-		{
-			displayTitle: 'Example Presentation',
-			duration: 1 * factor,
-			subElements: [
-				{
-					displayTitle: 'More stuff',
-					duration: 1 * factor,
-					subElements: [
-						{
-							displayTitle: 'Other Things and Stuff',
-							duration: 1 * factor,
-							subElements: [
-								{
-									displayTitle: 'SubThings and SubStuff',
-									duration: 1 * factor,
-									subElements: [
-										{
-											displayTitle: 'SubThings and subsubsubsubsub',
-											duration: 1 * factor,
-											subElements: [
-												{
-													displayTitle: 'SubThings and subsubssssssssubsubsub',
-													duration: 1 * factor,
-													subElements: [
-														{
-															displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-															duration: 1 * factor,
-															subElements: [
-																{
-																	displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																	duration: 1 * factor,
-																	subElements: [
-																		{
-																			displayTitle: 'SubThings and subsubssssssssubsubsub',
-																			duration: 1 * factor,
-																			subElements: [
-																				{
-																					displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-																					duration: 1 * factor,
-																					subElements: [
-																						{
-																							displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																							duration: 1 * factor,
-																							subElements: [
-																								{
-																									displayTitle: 'SubThings and subsubssssssssubsubsub',
-																									duration: 1 * factor,
-																									subElements: [
-																										{
-																											displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-																											duration: 1 * factor,
-																											subElements: [
-																												{
-																													displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																													duration: 1 * factor,
-																													subElements: [
-																														{
-																															displayTitle: 'SubThings and subsubssssssssubsubsub',
-																															duration: 1 * factor,
-																															subElements: [
-																																{
-																																	displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-																																	duration: 1 * factor,
-																																	subElements: [
-																																		{
-																																			displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																																			duration: 5 * factor
-																																		}
-																																	]
-																																}
-																															]
-																														}
-																													]
-																												}
-																											]
-																										}
-																									]
-																								}
-																							]
-																						}
-																					]
-																				}
-																			]
-																		}
-																	]
-																}
-															]
-														}
-													]
-												}
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	];
-	}
 	
 	
 	var timeHelper = null;
