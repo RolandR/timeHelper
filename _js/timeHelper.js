@@ -33,66 +33,16 @@ $(document).ready(function(){
 	// A list element can have any amount of sub-elements.
 	var topicList = [
 		{
-			displayTitle: 'Example Presentation',
-			duration: 4 * factor,
-			subElements: [
-				{
-					displayTitle: 'Intro',
-					duration: 5 * factor
-				},
-				{
-					displayTitle: 'Say something',
-					duration: 2 * factor
-				},
-				{
-					displayTitle: 'More stuff',
-					duration: 4 * factor,
-					subElements: [
-						{
-							displayTitle: 'Things and Stuff',
-							duration: 5 * factor
-						},
-						{
-							displayTitle: 'Other Things and Stuff',
-							duration: 0 * factor,
-							subElements: [
-								{
-									displayTitle: 'SubThings and SubStuff',
-									duration: 5 * factor
-								},
-								{
-									displayTitle: 'Other SubThings and SubStuff',
-									duration: 3 * factor
-								}
-							]
-						},
-						{
-							displayTitle: 'More stuff ends',
-							duration: 5 * factor
-						}
-					]
-				},
-				{
-					displayTitle: 'The end',
-					duration:  7 * factor
-				}
-			]
-		}
-	];
-	
-	
-	topicList = [
-		{
 			displayTitle: 'English Presentation',
 			duration: 0 * factor,
 			subElements: [
 				{
 					displayTitle: 'Intro',
-					duration: 0.3 * factor
+					duration: 1 * factor
 				},
 				{
 					displayTitle: 'Agriculture',
-					duration: 5 * factor
+					duration: 4 * factor
 				},
 				{
 					displayTitle: 'Raeffu',
@@ -108,29 +58,35 @@ $(document).ready(function(){
 					},
 					{
 						displayTitle: 'Instrument Unit',
-						duration: 2 * factor
+						duration: 1.5 * factor
 					},
 					{
 						displayTitle: 'Apollo Guidance Computer',
-						duration: 0.75 * factor
-					},
-					{
-						displayTitle: 'Core RAM',
-						duration: 1 * factor
-					},
-					{
-						displayTitle: 'Rope core ROM',
-						duration: 1 * factor
-					},
-					{
-						displayTitle: 'Little Old Ladies',
-						duration: 0.75 * factor
+						duration: 0 * factor,
+						subElements: [
+							{
+								displayTitle: 'Intro',
+								duration: 0.5 * factor
+							},
+							{
+								displayTitle: 'Descent Problem',
+								duration: 1 * factor
+							},
+							{
+								displayTitle: 'Core RAM',
+								duration: 0.5 * factor
+							},
+							{
+								displayTitle: 'Rope core ROM',
+								duration: 0.5 * factor
+							},
+							{
+								displayTitle: 'Little Old Ladies',
+								duration: 0.5 * factor
+							}
+						]
 					}
 					]
-				},
-				{
-					displayTitle: 'End',
-					duration: 1 * factor
 				}
 			]
 		}
@@ -138,10 +94,12 @@ $(document).ready(function(){
 	
 	
 	
-	var useDebugList = false;
+	var debug = false;
 	
-	if(useDebugList){
-	var topicList = [
+	if(debug){
+	
+	factor = 1000;
+	topicList = [
 		{
 			displayTitle: 'Example Presentation',
 			duration: 1 * factor,
@@ -636,7 +594,7 @@ $(document).ready(function(){
 			var date = new Date();
 			var timePassed = date.getTime() - startTime;
 			
-			updateTimerElement(progressBar.find('.durationLeft'), startTime, duration);
+			updateTimerElement(topic, progressBar.find('.durationLeft'), startTime, duration);
 			
 			progressBar.children().width(
 				progressBar.width() *  (timePassed - topic.pauseDuration) / duration
@@ -646,10 +604,10 @@ $(document).ready(function(){
 		/*
 		*	Calculates the new value of a timer element based on the given start time and duration and updates it.
 		*/
-		function updateTimerElement(timerElement, startTime, duration){
+		function updateTimerElement(topic, timerElement, startTime, duration){
 			var date = new Date();
 			var timePassed = date.getTime() - startTime;
-			var time = millisecondsToMinutes(duration - timePassed);
+			var time = millisecondsToMinutes(duration - (timePassed - topic.pauseDuration));
 			timerElement.html(time['m'] + ':' + time['s']);
 		}
 		
