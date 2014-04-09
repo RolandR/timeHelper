@@ -33,6 +33,7 @@ $(document).ready(function(){
 	// A list element can have any amount of sub-elements.
 	var topicList = [
 		{
+<<<<<<< HEAD
 			displayTitle: 'English Presentation',
 			duration: 0 * factor,
 			subElements: [
@@ -108,100 +109,64 @@ $(document).ready(function(){
 					displayTitle: 'More stuff',
 					duration: 1 * factor,
 					subElements: [
+=======
+			displayTitle: 'Sample Presentation',
+			duration: 0 * factor, // Duration of all subElements will be added automatically.
+			subElements: [
+				{
+					displayTitle: 'Intro',
+					duration: 0.2 * factor
+				},
+				{
+					displayTitle: 'Subtopics!',
+					duration: 0 * factor,
+					subElements: [
 						{
-							displayTitle: 'Other Things and Stuff',
-							duration: 1 * factor,
+							displayTitle: 'Hello World!',
+							duration: 0.2 * factor
+						},
+						{
+							displayTitle: 'More Subtopics!',
+							duration: 0.2 * factor
+						},
+						{
+							displayTitle: 'As many as you like',
+							duration: 0 * factor,
 							subElements: [
 								{
-									displayTitle: 'SubThings and SubStuff',
-									duration: 1 * factor,
-									subElements: [
-										{
-											displayTitle: 'SubThings and subsubsubsubsub',
-											duration: 1 * factor,
-											subElements: [
-												{
-													displayTitle: 'SubThings and subsubssssssssubsubsub',
-													duration: 1 * factor,
-													subElements: [
-														{
-															displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-															duration: 1 * factor,
-															subElements: [
-																{
-																	displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																	duration: 1 * factor,
-																	subElements: [
-																		{
-																			displayTitle: 'SubThings and subsubssssssssubsubsub',
-																			duration: 1 * factor,
-																			subElements: [
-																				{
-																					displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-																					duration: 1 * factor,
-																					subElements: [
-																						{
-																							displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																							duration: 1 * factor,
-																							subElements: [
-																								{
-																									displayTitle: 'SubThings and subsubssssssssubsubsub',
-																									duration: 1 * factor,
-																									subElements: [
-																										{
-																											displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-																											duration: 1 * factor,
-																											subElements: [
-																												{
-																													displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																													duration: 1 * factor,
-																													subElements: [
-																														{
-																															displayTitle: 'SubThings and subsubssssssssubsubsub',
-																															duration: 1 * factor,
-																															subElements: [
-																																{
-																																	displayTitle: 'SubThings and subsssssssawefwafawefubsubsubsub',
-																																	duration: 1 * factor,
-																																	subElements: [
-																																		{
-																																			displayTitle: 'SubThings and even moooooreeeeee subsssssssawefwafawefubsubsubsub',
-																																			duration: 5 * factor
-																																		}
-																																	]
-																																}
-																															]
-																														}
-																													]
-																												}
-																											]
-																										}
-																									]
-																								}
-																							]
-																						}
-																					]
-																				}
-																			]
-																		}
-																	]
-																}
-															]
-														}
-													]
-												}
-											]
-										}
-									]
+									displayTitle: 'Foo',
+									duration: 0.1 * factor
+								},
+								{
+									displayTitle: 'Bar',
+									duration: 0.2 * factor
 								}
 							]
 						}
 					]
+				},
+				{
+					displayTitle: 'Another topic',
+					duration: 0 * factor,
+					subElements: [
+>>>>>>> f5924b38e2d47aae69e9c8c4e287f34bcfc9cc2d
+						{
+							displayTitle: 'Stuff',
+							duration: 0.2 * factor
+						},
+						{
+							displayTitle: 'Things',
+							duration: 0.3 * factor
+						}
+					]
+				},
+				{
+					displayTitle: 'The end',
+					duration: 0.5 * factor
 				}
 			]
 		}
 	];
-	}
 	
 	
 	var timeHelper = null;
