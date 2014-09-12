@@ -1,0 +1,433 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	border: none;
+}
+
+body{
+	padding: 10px;
+	font-family: "Open Sans", sans-serif;
+}
+
+textarea,
+div [contenteditable="true"],
+input[type="text"]{
+	font-size: 14px;
+	border: 1px rgba(0, 0, 0, 0.6) solid;
+	outline: none;
+	background-color: rgba(255, 255, 255, 0.1);
+	overflow-y: auto;
+	height: 25px;
+	color: #FFFFFF;
+	box-sizing: border-box;
+	padding: 3px;
+}
+
+textarea[readonly],
+input[type="text"][readonly]{
+	border: 1px rgba(0, 0, 0, 0.3) solid;
+	background-color: rgba(255, 255, 255, 0.03);
+}
+
+button{	
+	background: none;
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(150, 150, 150, 0.6));
+	border: 1px rgba(0, 0, 0, 0.5) outset;
+	cursor: pointer;
+}
+
+button:hover{
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.5));
+	border: 1px rgba(0, 0, 0, 0.6) outset;
+}
+
+button:active{
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.8));
+	border: 1px rgba(0, 0, 0, 0.8) outset;
+	outline: none;
+}
+
+button:focus{
+	outline: none;
+}
+
+hr{
+	border-top: 1px #888888 solid;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+/* --------------------------------------------------- */
+
+body{
+	background-color: #444444;
+}
+
+h1{
+	display: inline-block;
+	color: #FFFFFF;
+	font-weight: 200;
+	text-shadow: 1px 1px #000000;
+	font-size: 35px;
+	line-height: 1.5em;
+	margin-right: 5px;
+	margin-left: 12px;
+}
+
+a, a:visited{
+	color: #88AAFF;
+	text-decoration: none;
+}
+
+hr{
+	margin-top: 5px;
+}
+
+noscript{
+	position: absolute;
+	top: 60px;
+	color: #FFFFFF;
+	z-index: -10000;
+}
+
+#menu{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 55px;
+	background-color: #777777;
+	border-bottom: 1px #000000 solid;
+	box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+
+#menuContainer{
+	position: absolute;
+	left: 220px;
+	top: 22px;
+}
+
+.menuCategory{
+	display: inline-block;
+	border: 1px #000000 solid;
+	box-shadow: 0px 20px 40px rgba(255, 255, 255, 0.2) inset;
+	height: 22px;
+	width: 100px;
+	overflow: visible;
+	padding: 5px;
+	text-align: center;
+	color: #FFFFFF;
+	cursor: default;
+	text-shadow: 1px 1px #000000;
+}
+
+.menuCategory:hover{
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menuDropdown{
+	display: none;
+	position: absolute;
+	background-color: #AAAAAA;
+	width: 150px;
+	border: 1px #000000 solid;
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+	margin-top: 5px;
+	margin-left: -6px;
+	text-align: left;
+}
+
+.menuElement{
+	padding: 3px;
+	padding-left: 5px;
+	border: rgba(0, 0, 0, 0.5) solid;
+	border-width: 0px 0px 1px 0px;
+	cursor: pointer;
+}
+
+.menuElement:last-child{
+	border-width: 0px;
+}
+
+.menuElement .shortcut{
+	float: right;
+	font-size: 13px;
+	color: rgba(0, 0, 0, 0.3);
+	margin-top: 4px;
+	margin-right: 2px;
+	text-shadow: none;
+}
+
+.menuCategory:hover .menuDropdown{
+	display: block;
+}
+
+.menuElement:hover{
+	box-shadow: 0px -10px 40px rgba(0, 0, 0, 0.2) inset;
+}
+
+#bigFatStartButton{
+	position: absolute;
+	right: 9px;
+	top: 9px;
+	height: 37px;
+	width: 100px;
+	background: none;
+	color: #FFFFFF;
+	background-color: rgba(0, 200, 0, 0.8);
+	border-color: #555555;
+	border-width: 1px;
+	text-shadow: 1px 1px #000000;
+	box-shadow: 0px -18px 40px rgba(0, 0, 0, 0.2) inset, 0px 10px 40px rgba(255, 255, 255, 0.3) inset;
+	font-size: 20px;
+	font-weight: 200;
+}
+
+#bigFatStartButton:hover{
+	background-color: #00CC00;
+}
+
+#presentation{
+	max-width: 800px;
+	padding: 5px;
+	margin-top: 70px;
+}
+
+.topic{
+	margin: 5px;
+	margin-left: 25px;
+	margin-top: 10px;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 0px;
+	padding-bottom: 10px;
+}
+
+.topic:hover{
+	border-radius: 5px 0px 0px 5px;
+	border-left: 5px rgba(255, 255, 255, 0.7) solid;
+	margin-left: 20px;
+}
+
+.topic.deleteCandidate, .topic.deleteCandidate .topic{
+	border-radius: 5px 0px 0px 5px;
+	border-left: 5px rgba(255, 0, 0, 0.7) solid;
+	margin-left: 20px;
+}
+
+
+.topicInfo{
+	padding: 5px;
+	padding-left: 7px;
+	color: #FFFFFF;
+	border: 1px #000000 solid;
+	text-shadow: 1px 1px #000000;
+	box-shadow: 0px 20px 100px rgba(255, 255, 255, 0.3) inset,
+				0px -30px 100px rgba(0, 0, 0, 0.3) inset;
+}
+
+.topicInfo p{
+	padding-left: 3px;
+}
+
+.topicInfo .title{
+	width: 300px;
+}
+
+.topicInfo .title:hover, .topicInfo .title:focus{
+	outline: 1px rgba(0, 0, 0, 0.5) solid;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.topicInfo .duration .autoTime{
+	font-size: 12px;
+	margin-left: 5px;
+}
+
+.topic.noChild{
+	padding-bottom: 0px;
+}
+
+.topicInfo button{
+	display: none;
+
+	float: right;
+	margin-top: -37px;
+	margin-right: 5px;
+	width: 30px;
+	height: 30px;
+	padding: 0px;
+	
+	background: none;
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(100, 100, 100, 0.45));
+	border: 1px rgba(0, 0, 0, 0.6) outset;
+}
+
+.topicInfo button:hover{
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.5));
+	border: 1px rgba(0, 0, 0, 0.6) outset;
+}
+
+button.addTopicButton{
+	margin-top: -42px;
+	margin-right: 2px;
+	width: 41px;
+	height: 41px;
+}
+
+button.deleteButton{
+	margin-top: -42px;
+	margin-right: 46px;
+	width: 19px;
+	height: 19px;
+	line-height: 0em;
+}
+
+button.colorButton{
+	margin-top: -20px;
+	margin-right: 46px;
+	width: 19px;
+	height: 19px;
+}
+
+button.durationButton{
+	float: none;
+	width: 19px;
+	height: 19px;
+	margin-left: 5px;
+	padding-top: 2px;
+	position: relative;
+	top: 2px;
+}
+
+button.deleteButton:hover{
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.5));
+	border: 1px rgba(0, 0, 0, 0.6) outset;
+}
+
+ .topicInfo:hover button{
+	display: block;
+}
+
+ .topicInfo:hover button.durationButton{
+	display: inline-block;
+}
+
+.overlay{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	z-index: 10000000000000;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.popupWindow{
+	position: absolute;
+	background-color: #666666;
+	border: 1px #000000 solid;
+	color: #FFFFFF;
+	padding: 10px;
+	box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+.popupCloseButton{
+	float: right;
+	height: 21px;
+	width: 21px;
+	padding: 1px;
+	margin-top: -25px;	
+}
+
+.popupWindow h2{
+	font-weight: 200;
+	line-height: 1em;
+}
+
+#aboutOverlay{
+	display: none;
+}
+
+#aboutWindow{
+	width: 400px;
+	height: 300px;
+	left: 50%;
+	margin-left: -200px;
+	top: 50%;
+	margin-top: -150px;
+}
+
+#documentPropertiesOverlay{
+	display: none;
+}
+
+#documentPropertiesWindow{
+	width: 400px;
+	left: 50%;
+	margin-left: -200px;
+	top: 50%;
+	margin-top: -150px;
+}
+
+#documentPropertiesWindow .fieldSet{
+	
+}
+
+#documentPropertiesWindow label{
+	display: inline-block;
+	vertical-align: top;
+	width: 115px;
+	margin-top: 3px;
+}
+
+#documentPropertiesWindow input,
+#documentPropertiesWindow textArea{
+	display: inline-block;
+	width: 280px;
+	margin-top: 3px;
+}
+
+#documentPropertiesWindow textArea{
+	height: 60px;
+	margin-bottom: -5px;
+}
+
+#documentPropertiesWindow button.formButton{
+	float: right;
+	height: 25px;
+	width: 60px;
+	margin: 7px 1px 0px 4px;
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+#timeHelperOverlay{
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

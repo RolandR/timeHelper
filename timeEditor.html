@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+	<head>
+		<title>
+			TimeHelper
+		</title>
+		<link href="./_css/timeEditor.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./_css/timeHelper.css" rel="stylesheet" type="text/css" media="all">
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div id="menu">
+			<h1>TimeHelper</h1>
+			<div id="menuContainer">
+				<div class="menuCategory">
+					<span>File</span>
+					<div class="menuDropdown">
+						<div class="menuElement" onclick="Presentation.openPresentationPlayer();">
+							<span>Start TimeHelper</span>
+							<span class="shortcut">Alt+P</span>
+						</div>
+						<div class="menuElement">
+							<span>New</span>
+							<span class="shortcut">Alt+N</span>
+						</div>
+						<div class="menuElement" onclick="">
+							<span>Save...</span>
+							<span class="shortcut">Alt+S</span>
+						</div>
+						<div class="menuElement">
+							<span>Open...</span>
+							<span class="shortcut">Alt+O</span>
+						</div>
+						<div class="menuElement" onclick="Overlays.get($('#documentPropertiesOverlay')).show();">
+							<span>Properties</span>
+						</div>
+					</div>
+				</div>
+				<div class="menuCategory">
+					<span>Edit</span>
+					<div class="menuDropdown">
+						<div class="menuElement">
+							<span>Undo</span>
+							<span class="shortcut">Alt+Z</span>
+						</div>
+						<div class="menuElement">
+							<span>Redo</span>
+							<span class="shortcut">Alt+Y</span>
+						</div>
+					</div>
+				</div>
+				<div class="menuCategory">
+					<span>Info</span>
+					<div class="menuDropdown">
+						<div class="menuElement" onclick="Overlays.get($('#aboutOverlay')).show();">
+							<span>About...</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button id="bigFatStartButton" onclick="Presentation.openPresentationPlayer();">
+				Start
+			</button>
+		</div>
+		<noscript>
+			TimeHelper requires JavaScript!
+		</noscript>
+		<div id="presentation">
+		
+		</div>
+		
+		<div id="aboutOverlay" class="overlay">
+			<div id="aboutWindow" class="popupWindow">
+				<h2>About</h2>
+				<button class="popupCloseButton" title="Close Window" onclick="Overlays.get($('#aboutOverlay')).hide();"><img src="./_media/_icons/delete.png" alt="x"/></button>
+				<hr />
+				<p>TimeHelper is on <a target="_blank" href="https://github.com/RolandR/timeHelper/">GitHub</a>!</p>
+			</div>
+		</div>
+		
+		<div id="documentPropertiesOverlay" class="overlay">
+			<div id="documentPropertiesWindow" class="popupWindow">
+				<h2>Document Properties</h2>
+				<button class="popupCloseButton" title="Close Window" onclick="Overlays.get($('#documentPropertiesOverlay')).hide();"><img src="./_media/_icons/delete.png" alt="x"/></button>
+				<hr />
+				<form id="documentPropertiesForm">
+					<div class="fieldSet">
+						<label  for="dp-title">Title</label>
+						<input name="dp-title" type="text" value="Example Presentation" />
+					</div>
+					<div class="fieldSet">
+						<label  for="dp-author">Author</label>
+						<input name="dp-author" type="text" value="" />
+					</div>
+					<div class="fieldSet">
+						<label  for="dp-description">Description</label>
+						<textArea name="dp-description"></textArea>
+					</div>
+					<div class="fieldSet">
+						<label  for="dp-created">Created</label>
+						<input name="dp-created" readonly type="text" value="2014-04-32 21:23" />
+					</div>
+					<div class="fieldSet">
+						<label  for="dp-lastEdited">Last Edited</label>
+						<input name="dp-lastEdited" readonly type="text" value="2014-09-09 16:03" />
+					</div>
+				</form>
+				<button id="saveDocumentPropertiesButton" class="formButton" onclick="Presentation.updateDocumentProperties(); Overlays.get($('#documentPropertiesOverlay')).hide();">OK</button>
+				<button id="resetDocumentPropertiesButton" class="formButton" onclick="Overlays.get($('#documentPropertiesOverlay')).hide();">Cancel</button>
+			</div>
+		</div>
+		
+		<div id="timeHelperOverlay" class="overlay">
+			<div id="timeHelper"></div>
+			
+			<div id="controls">
+				<div class="controlsButton" id="playButton">
+					<img src="./_media/_icons/play.png" alt="Play" title="" />
+				</div>
+				<div class="controlsButton" id="toStartButton">
+					<img src="./_media/_icons/toStart.png" alt="Back to start" title="" />
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="./_js/_libs/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="./_js/timeEditor.js"></script>
+	<script type="text/javascript" src="./_js/timeHelper.js"></script>
+	<script type="text/javascript" src="./_js/overlays.js"></script>
+</html>
