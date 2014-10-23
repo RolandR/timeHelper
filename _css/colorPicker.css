@@ -1,0 +1,85 @@
+.cp, .cp *{
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	box-sizing: border-box;
+	text-align: left;
+}
+
+.cp{
+	width: 200px;
+	border: 1px #000000 solid;
+	background-color: #777777;
+	font-family: sans-serif;
+	color: #FFFFFF;
+	padding: 8px;
+	padding-top: 3px;
+	font-size: 17px;
+	cursor: default;
+	text-shadow: none;
+	position: relative;
+}
+
+.cp label{
+	display: inline-block;
+	width: 45px;
+	text-align: right;
+	margin-right: 5px;
+}
+
+.cp input[type="range"]{
+	display: inline-block;
+	width: 130px;
+	position: relative;
+	top: 7px;
+}
+
+.cp input[type='range']::-moz-range-track {
+	-moz-appearance: none;
+	color: #00FF00;
+}
+
+.cp input[type='range']::-webkit-range-track {
+	-webkit-appearance: none;
+	color: #00FF00;
+}
+
+.cp input[type="text"]{
+	display: inline-block;
+	width: 105px;
+	position: relative;
+	margin-left: 5px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.cp-colorPreview{
+	border: 1px #000000 solid;
+	height: 55px;
+	width: 70px;
+	margin-top: 10px;
+	display: inline-block;
+	float: left;
+}
+
+div.cp button.cp-button{
+	display: inline-block;
+	vertical-align: baseline;
+	float: none;
+	height: 25px;
+	width: 50px;
+	margin-left: 5px;
+	margin-top: 0px;
+	margin-right: 0px;
+	border: 1px #000000 solid;
+	background: none;
+	background-color: rgba(255, 255, 255, 0.6);
+	box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.3) inset;
+	cursor: pointer;
+	text-align: center;
+}
+
+.cp-button:hover{
+	background-color: rgba(255, 255, 255, 0.9);
+}

@@ -128,7 +128,20 @@ var Presentation = new function(){
 			var durationButton = $('<button class="durationButton" title="Set duration"><img src="./_media/_icons/clock.png" alt="Change..."/></button>');
 			durationSettings.append(durationButton);
 			topicInfo.append(durationSettings);
-			topicInfo.append('<button class="colorButton" title="Set Color"><img src="./_media/_icons/color.png" alt="c"/></button>');
+			var colorButton = $('<button class="colorButton" title="Set Color"><img src="./_media/_icons/color.png" alt="c"/></button>');
+			colorButton.click(function(){
+				topicInfo.addClass("hoverLock");
+				var colorPicker = new ColorPicker(colorButton, 
+					function(c){
+						element.color = "rgb("+c[0]+","+c[1]+","+c[2]+")";
+						topicInfo.css("backgroundColor", element.color);
+						topicInfo.removeClass("hoverLock");
+					}, 
+					function(){topicInfo.removeClass("hoverLock");},
+					element.color.substring(4, element.color.length-1).replace(/ /g, '').split(','))
+			});
+			topicInfo.append(colorButton);
+			
 			if(element.parent != null){
 				var deleteTopicButton = $('<button class="deleteButton" title="Delete"><img src="./_media/_icons/delete.png" alt="x"/></button>');
 				deleteTopicButton.click(function(){element.remove()});

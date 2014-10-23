@@ -289,6 +289,36 @@ button.colorButton{
 	height: 19px;
 }
 
+button.colorButton .cp{
+	margin-top: -3px;
+	margin-left: -1px;
+	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.topicInfo.hoverLock button.colorButton{
+	border: 1px #000000 solid;
+	background-color: #777777;
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(100, 100, 100, 0));
+	box-shadow: none;
+}
+
+.topicInfo.hoverLock button.colorButton:hover{
+	background-color: #777777;
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(100, 100, 100, 0));
+}
+
+.topicInfo.hoverLock button.colorButton img{
+	border-bottom: 1px #777777 solid;
+	z-index: 1000000000000;
+	position: absolute;
+	margin-left: -9px;
+}
+
+.topicInfo.hoverLock button.colorButton .cp{
+	margin-top: 17px;
+	margin-left: -1px;
+}
+
 button.durationButton{
 	float: none;
 	width: 19px;
@@ -304,11 +334,11 @@ button.deleteButton:hover{
 	border: 1px rgba(0, 0, 0, 0.6) outset;
 }
 
- .topicInfo:hover button{
+.topicInfo:hover button, .topicInfo.hoverLock button{
 	display: block;
 }
 
- .topicInfo:hover button.durationButton{
+.topicInfo:hover button.durationButton, .topicInfo.hoverLock button.durationButton{
 	display: inline-block;
 }
 
